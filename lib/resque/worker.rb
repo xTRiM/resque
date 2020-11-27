@@ -251,6 +251,7 @@ module Resque
     rescue Exception => exception
       return if exception.class == SystemExit && !@child && run_at_exit_hooks
       log_with_severity :error, "Failed to start worker : #{exception.inspect}"
+      log_with_severity :error, exception.stacktrace
       unregister_worker(exception)
       run_hook :worker_exit
     end
